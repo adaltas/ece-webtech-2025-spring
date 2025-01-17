@@ -13,12 +13,12 @@ duration: 2h
 ## Tasks
 
 1. Start a project
-2. Create a simple Node.js script 
-3. Create a simple HTTP server
-4. Integrate Nodemon
-5. Create a basic application with multiple routes
-6. Reading from a JSON file
-7. Publish your project to GitHub
+1. Create a simple Node.js script
+1. Create a simple HTTP server
+1. Integrate Nodemon
+1. Create a basic application with multiple routes
+1. Reading from a JSON file
+1. Publish your project to GitHub
 
 ## Notes
 
@@ -26,24 +26,29 @@ The lab starts a new Node.js project which serves as the basis for the following
 
 In the end, it becomes the basis for your final project. The final grade reflects the delivered project, as well as its Git history.
 
-## Part 2. Create a simple Node.js script 
+## Prerequisites: Node.js installation
 
-### 1. Start working with a text editor (easy level)
+- Linux / macOS, don't use the installer or your package manager.
+- We want to be able to switch between multiple Node.js versions.
+- We want Node.js to be installed inside your home directory, with administrative permissions (no `sudo`).
+- Use [`n-install`](https://github.com/mklement0/n-install), a script to install [`n`](https://github.com/tj/n).
 
-Now, we start using a text editor or IDE (Atom, VS Code, WebStorm, or up to your choice). 
+## Create a simple Node.js script
+
+### Start working with a text editor
+
+Now, we start using a text editor or IDE (Atom, VS Code, WebStorm, or up to your choice).
 
 Open a project folder in your editor. You also can use bash commands for opening it. Being under the root of the project directory, run one of the commands:
 
 ```bash
 # For VS Code
 code .
-# For Sublime Text
-subl .
 # For power users
 vim .
 ```
 
-### 2. Create a script (easy level)
+### Create a script
 
 Create a file `index.js` with the following content:
 
@@ -59,7 +64,17 @@ node index.js
 
 It will print the message `Hello Node.js!`.
 
-### 3. Define an NPM script (medium level)
+### Initialize a Node.js project
+
+Run the command:
+
+```bash
+npm init
+```
+
+It will create a `package.json` file for you.
+
+### Define an NPM script
 
 Add the script `start` to the `package.json` file like this:
 
@@ -83,13 +98,13 @@ npm start
 
 It will do the same as in step 2.
 
-## Part 3. Create an HTTP server
+## Create an HTTP server
 
-### 3.1. Create an HTTP server (medium level)
+### Basic HTTP server implementation
 
 Modify the `index.js` file with the following content
 
-```javascript
+```js
 // Import a module
 const http = require('http')
 
@@ -106,9 +121,9 @@ http.createServer(function (req, res) {
 }).listen(8080)
 ```
 
-Read and understand each line in this code using the [`http` Node.js official module documentation](https://nodejs.org/api/http.html). 
+Read and understand each line in this code using the [`http` Node.js official module documentation](https://nodejs.org/api/http.html).
 
-### 3.2. Run HTTP server (medium level)
+### Run HTTP server
 
 Run the command:
 
@@ -116,15 +131,16 @@ Run the command:
 npm run start
 ```
 
-It will start a web server accessible on http://localhost:8080:
+It will start a web server accessible on <http://localhost:8080>:
+
 - open it in a browser
 - or `curl localhost:8080` in a terminal to get the home page content
 
-### 3.3. Define callback function (hard level)
+### Define callback function
 
 Rewrite the code to define a callback function
 
-```javascript
+```js
 const serverHandle = function (req, res) {
   res.writeHead(200, {'Content-Type': 'text/plain'})
   res.end('Hello World\n')
@@ -137,11 +153,11 @@ http
 
 Don't forget to restart the server. To terminate a blocking process in the terminal use the combination of keys `Ctrl + C`. Start it again with `npm start`.
 
-### 3.4. Sending back HTML (hard level)
+### Sending back HTML
 
 Change the content type & response content:
 
-```javascript
+```js
 // Define a string constant concatenating strings
 const content = '<!DOCTYPE html>' +
 '<html>' +
@@ -165,12 +181,13 @@ http
 .listen(8080)
 ```
 
-### 3.5. Get the current path (medium level)
+### Get the current path
 
-Enrich the previous code with the following: 
+A path is the part of the URL that comes after the domain name. For example, in `http://localhost:8080/my/path`, the path is `/my/path`.
 
-```javascript 
-...
+Enrich the previous code with the following:
+
+```js
 // Import Node url module
 const url = require('url')
 
@@ -191,11 +208,19 @@ http
 
 Access to your local website by different URLs like `localhost:8080` and `localhost:8080/my/path` and see what is printed in the terminal.
 
-### 3.6. Get query parameters (medium level)
+### Get query parameters
+
+Web URLs can be enriched with query parameters, which come after the `?` and are separated by `&`, formatted as `key=value`.
+
+```txt
+http://my.site/my/page.html?username=toto&password=lulu
+```
+
+These parameters can be parsed with Node's `querystring` module on the URL's query property.
 
 Enrich the previous code with the following:
 
-```javascript 
+```js
 const url = require('url')
 const qs = require('querystring')
 
@@ -216,11 +241,11 @@ http
 
 Access your local website by different URLs like `localhost:8080/?name=John&email=john@email.com`, and see what is printed in the terminal.
 
-### 3.7. Basic routing example (hard level)
+### Basic routing example
 
 Enrich the previous code with the following:
 
-```javascript 
+```js
 const url = require('url')
 const qs = require('querystring')
 
@@ -243,11 +268,11 @@ const serverHandle = function (req, res) {
 
 Access to your local website by different URLs like `localhost:8080/hello?name=John`.
 
-### 3.8. Organize the source code in a module (hard level)
+### Organize the source code in a module
 
 Create `handles.js` and `index.js` files and reorganize the previous code like:
 
-```javascript
+```js
 // ./handles.js
 // Necessary imports
 module.exports = {
@@ -257,7 +282,7 @@ module.exports = {
 }
 ```
 
-```javascript 
+```js
 // ./index.js
 const http = require('http')
 const handles = require('./handles')
@@ -267,13 +292,15 @@ http
 .listen(8080)
 ```
 
-## Part 4. Integrate Nodemon
+## Integrate Nodemon
 
 Tired of restarting your webserver after every modification of the source code? Let's fix it!
 
-### 4.1. Install Nodemon (easy level)
+Nodemon is a simple utility that watches your development files and restarts the server automatically upon saving, eliminating the need to restart the server manually.
 
-Run: 
+### Install Nodemon
+
+Run:
 
 ```bash
 npm install nodemon
@@ -288,7 +315,7 @@ Now, it will restart the web server when the file is updated. There is no need t
 
 > Note! Don't forget to define a `.gitignore` to prevent committing the `node_modules` folder.
 
-### 4.2. Define an NPM script in `package.json` (easy level)
+### Define an NPM script in `package.json`
 
 Enrich your `scripts` in `package.json` with:
 
@@ -306,50 +333,56 @@ And then always run when developing:
 npm run dev
 ```
 
-## Part 5. Create a basic application with multiple routes (hard level)
+## Create a basic application with multiple routes
 
 Create an application with 3 routes:
 
 1. `/` explains how `/hello` works (containing the links)
 2. `/hello` takes a `name` query parameter and:
-  - random names reply `hello [name]`
-  - your own name replies with a short intro of yourself
+    - random names reply `hello [name]`
+    - your own name replies with a short intro of yourself
 3. Any other path replies a 404 code with a not found message
 
-## Part 6. Reading from a JSON file
+## Reading from a JSON file
 
 1. Create a subfolder with the name `content` and create a JSON file `about.json` inside it with the example content like this:
 
-```json
-{
-  "title": "About",
-  "content": "Example content here.",
-  "author": "Your Name",
-  "date": "27/09/2022"
-}
-```
+    ```json
+    {
+      "title": "About",
+      "content": "Example content here.",
+      "author": "Your Name",
+      "date": "27/09/2022"
+    }
+    ```
 
-2. Create the route `/about` displaying the content of this JSON file:
+1. Create the route `/about` displaying the content of this JSON file:
 
-- use `require()` method to access a file
-- chose a proper `Content-Type` for displaying JSON
+    - use `require()` method to access a file
+    - chose a proper `Content-Type` for displaying JSON
 
-3. Create dynamic routing.
+1. Create dynamic routing.
 
 Parse the path and verify if a JSON file exists in the `content` folder. If yes, print its content. If no, redirect to the 404 error page.
 
-## Part 7. Publish your project to GitHub
+## Publish your project to GitHub
 
-### 7.1. Document your project (medium level)
+### Document your project
 
-Add a `README.md` file with a title, an introduction, running/usage instructions, and your name.
+Update the `README.md` file. It should at least contain:
 
-### 7.2. Push it to GitHub (medium level)
+- Project title
+- Short introduction
+- Installation instructions
+- Usage instruction with simple (and advanced) examples
+- List of contributors
+
+### Push it to GitHub
 
 Commit your changes, use your **PRIVATE** group repository on GitHub, and push it.
 Create a tag `lab2` for the last commit and also push it.
 
-## Part 8. Cultivate yourself
+## Cultivate yourself
 
 - [Learn Markdown](https://www.markdownguide.org/)
 - [How to write README](https://dev.to/scottydocs/how-to-write-a-kickass-readme-5af9)
