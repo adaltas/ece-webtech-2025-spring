@@ -373,6 +373,7 @@ Update the `README.md` file. It should at least contain:
 
 - Project title
 - Short introduction
+- Prerequisites
 - Installation instructions
 - Usage instruction with simple (and advanced) examples
 - List of contributors
