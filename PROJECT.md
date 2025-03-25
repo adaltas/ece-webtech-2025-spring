@@ -15,7 +15,9 @@ Consider drawing inspiration from platforms like [Medium](https://medium.com/cre
 
 ## Deadline
 
-> To be defined by your instructor.
+Deadline: the 5th of april
+
+Oral presentation: the 7th of april
 
 ## Delivery Requirements
 
